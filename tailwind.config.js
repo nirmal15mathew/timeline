@@ -5,7 +5,10 @@ module.exports = {
      "./src/**/*.svelte",
 
     ],
-    enabled: production // disable purge in dev
+    enabled: production // disable purge in dev,
+    options: {
+      safelist: ["dark"]
+    }
   },
   darkMode: 'class', // or 'media' or 'class'
   theme: {
