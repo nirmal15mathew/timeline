@@ -4,6 +4,7 @@
     import SidebarHeader from "./SidebarHeader.svelte";
     import {PlusIcon} from "svelte-feather-icons"
     import {location} from "svelte-spa-router"
+    import slide from "../utils/slide"
     import timelineStore, {addNewTimeline} from "../store";
     import FAB from "./FAB.svelte"
 
@@ -25,7 +26,7 @@
         modalOpen = false
     }
 </script>
-<aside class="h-screen left-0 bg-gray-200 p-3 w-3-screen relative dark:bg-gray-800 transition-colors">
+<aside class="h-screen left-0 bg-gray-200 p-3 w-screen md:w-auto relative dark:bg-gray-800 transition-colors min-w" transition:slide={{direction: 'l2r', duration: 150}}>
     <SidebarHeader bind:searchText={searchText} />
     <ul>
         {#each bufferStore as timeline}
@@ -38,6 +39,8 @@
                     isActive={'/timeline/'+timeline.id === $location}
                 />
             </li>
+            {:else}
+            <p class="font-semibold text-gray-400 text-center">Click + to add new timeline</p>
         {/each}
     </ul>
     <FAB actionEvent={() => {modalOpen = true}} iconComponent={PlusIcon} />
@@ -52,8 +55,7 @@
 </aside>
 
 <style>
-    .w-3-screen {
-        width: 30vw;
-        min-width: 280px;
+    .min-w {
+        min-width: 350px;
     }
 </style>

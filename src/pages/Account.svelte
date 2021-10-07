@@ -1,1 +1,3 @@
-<h1>Account</h1>
+<h1>
+    Sign Up
+</h1>

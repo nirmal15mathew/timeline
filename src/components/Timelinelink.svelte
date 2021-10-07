@@ -4,6 +4,7 @@
     import ContextMenuHandler from "./ContextMenuHandler.svelte"
     import ContextMenu from "./ContextMenu.svelte"
     import { TrashIcon, ChevronUpIcon } from "svelte-feather-icons";
+    import {deleteTimeline} from "../store"
     export let linkTitle;
     export let description;
     export let lastTime;
@@ -26,7 +27,7 @@
             </div>
         </article>
     </a>
-    <ContextMenu slot="context-menu" menuItems={[{title: 'Delete', icon: TrashIcon},{title: 'Pin', icon: ChevronUpIcon}]}></ContextMenu>
+    <ContextMenu slot="context-menu" menuItems={[{title: 'Delete', icon: TrashIcon, handler: () => deleteTimeline(id)},{title: 'Pin', icon: ChevronUpIcon}]}></ContextMenu>
 </ContextMenuHandler>
 <style>
     

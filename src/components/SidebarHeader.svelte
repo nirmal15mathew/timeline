@@ -2,9 +2,23 @@
     import ContextMenuHandler from "./ContextMenuHandler.svelte"
     import ContextMenu from "./ContextMenu.svelte"
     import Searchbar from "./Searchbar.svelte";
-    import {SunIcon, MoonIcon} from "svelte-feather-icons"
+    import {SunIcon, MoonIcon, UserIcon} from "svelte-feather-icons"
     import { toggleTheme, currentTheme } from "../store"
+    import {push} from "svelte-spa-router"
     export let searchText;
+
+    const contextMenuItems = [
+        {
+            title: $currentTheme === "light" ? "Dark Theme": "Light Theme", 
+            handler: toggleTheme, 
+            icon: $currentTheme === "light" ? MoonIcon : SunIcon 
+        },
+        {
+            title: "Account",
+            handler: () => {push('/account')},
+            icon: UserIcon
+        }
+    ]
 </script>
 <ContextMenuHandler>
     <header slot="target">
@@ -13,5 +27,5 @@
         </a></h1>
         <Searchbar bind:searchText={searchText}/>
     </header>
-    <ContextMenu slot="context-menu" menuItems={[{title: $currentTheme === "light" ? "Dark Theme": "Light Theme", handler: toggleTheme, icon: $currentTheme === "light" ? MoonIcon : SunIcon }]}></ContextMenu>
+    <ContextMenu slot="context-menu" menuItems={contextMenuItems}></ContextMenu>
 </ContextMenuHandler>

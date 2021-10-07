@@ -1,3 +1,4 @@
+import { getAllTimelines, addTimelineToDb, removeTimelineFromDb} from "./utils/db"
 import {writable} from "svelte/store"
 import uniqueId from "./utils/uniqueId"
 
@@ -22,15 +23,22 @@ const template = [
     }
 ]
 
-const timelinesStore = writable(template)
+const timelinesStore = writable([])
 
-function addNewTimeline(title) {
-    timelinesStore.update(current => ([...current, {
+async function loadDb() {
+    let allTimelines = await getAllTimelines()
+    timelinesStore.set(allTimelines)
+}
+
+async function addNewTimeline(title) {
+    let newObj = {
         title: title,
         description: 'No description added',
         lastTime: Date.now(),
         id: uniqueId()
-    }]))
+    }
+    timelinesStore.update(current => ([newObj, ...current]))
+    await addTimelineToDb(newObj);
 }
 function getTimeline(id) {
     let returnData = {}
@@ -44,8 +52,27 @@ function getTimeline(id) {
     unsub()
     return returnData
 }
+
+async function deleteTimeline(id) {
+    let tdata = {}
+    let unsub = timelinesStore.subscribe(data => {
+        data.forEach((timeline, ind) => {
+            if (timeline.id === id) {
+                console.log(ind)
+                let buffer = data
+                buffer.splice(ind, 1)
+                console.log(buffer)
+                timelinesStore.update(_ => buffer)
+                tdata.id = timeline.id
+            }
+        })
+    })
+    removeTimelineFromDb(tdata.id)
+    unsub()
+}
+
 export default timelinesStore;
-export {addNewTimeline, getTimeline}
+export {addNewTimeline, getTimeline, loadDb, deleteTimeline}
 
 
 // theme handling

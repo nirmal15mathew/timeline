@@ -1,6 +1,7 @@
 # Timeline App
 
 ### Todo
+- use indexedDb for storing timelines
 - setup firebase
 - get started with d3 and svg
 - setup auth
@@ -14,3 +15,6 @@
 - creation of timelines
 - setup context menus for timelines
 - Theme Management
+- setup pwa
+- Deployed to vercel to test
+- responsive layout
