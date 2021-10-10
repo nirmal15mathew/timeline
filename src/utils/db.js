@@ -40,7 +40,7 @@ async function addEvent(obj) {
 
 async function getAllEventsOfTimeline(timeline_id) {
     if (typeof timeline_id === 'string') {
-        return await db.events.where('timelineId').equals(timeline_id).toArray()
+        return await db.events.where('timelineId').equals(timeline_id).sortBy('time')
     }
 }
 

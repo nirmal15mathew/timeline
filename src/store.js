@@ -37,10 +37,8 @@ async function deleteTimeline(id) {
     let unsub = timelinesStore.subscribe(data => {
         data.forEach((timeline, ind) => {
             if (timeline.id === id) {
-                console.log(ind)
                 let buffer = data
                 buffer.splice(ind, 1)
-                console.log(buffer)
                 timelinesStore.update(_ => buffer)
                 tdata.id = timeline.id
             }
@@ -115,7 +113,6 @@ async function loadEvents(timelineId) {
     let eventsOfTimeline = await getAllEventsOfTimeline(timelineId)
     eventsStore.update(state => {
         state[timelineId] = eventsOfTimeline
-        console.log(state)
         return state
     })
 }

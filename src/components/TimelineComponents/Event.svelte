@@ -13,7 +13,7 @@
 <time use:svelteTime={{
   timestamp: data.time,
   format: "h:mm A · D/MM/YYYY",
-}} class="dark:text-gray-100 text-gray-700 text-sm"></time>
+}} class="dark:text-gray-100 text-gray-700 text-xs"></time>
 <article 
   bind:this={el} 
   class="bg-gray-200 dark:bg-gray-600 dark:text-gray-50 p-2 max-w-prose my-2 rounded shadow">
