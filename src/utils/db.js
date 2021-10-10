@@ -1,8 +1,9 @@
 import Dexie from "dexie";
 const db = new Dexie("appDb")
 
-db.version(1).stores({
+db.version(2).stores({
     timelines: "&id, title, lastTime, *tags",
+    events: "&eventId, content, time, timelineId"
 })
 
 
@@ -27,3 +28,20 @@ async function getAllTimelines(){
 
 export default db;
 export {addTimelineToDb, removeTimelineFromDb, getAllTimelines}
+
+async function addEvent(obj) {
+    if (typeof obj === 'object') {
+        await db.events.add(obj)
+    }
+    else {
+        throw new Error("argument was not of Type Object");
+    }
+}
+
+async function getAllEventsOfTimeline(timeline_id) {
+    if (typeof timeline_id === 'string') {
+        return await db.events.where('timelineId').equals(timeline_id).toArray()
+    }
+}
+
+export {addEvent, getAllEventsOfTimeline}

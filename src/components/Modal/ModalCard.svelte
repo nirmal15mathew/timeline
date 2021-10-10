@@ -9,7 +9,7 @@
   
   {#if isOpen}
   <div class="fixed top-0 left-0 w-screen h-screen bg-gray-700 bg-opacity-50 grid place-items-center z-100 always-top">
-    <div class="rounded bg-gray-50 p-3 max-w-sm w-1/3 dark:bg-gray-600">
+    <div class="rounded bg-gray-50 p-3 max-w-sm w-2/3 dark:bg-gray-600 shadow md:w-1/3">
     <header class="p-2 flex justify-between">
       <h1 class="text-sm font-semibold text-gray-700 dark:text-gray-200">
         {modalTitle}

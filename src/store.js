@@ -1,27 +1,6 @@
-import { getAllTimelines, addTimelineToDb, removeTimelineFromDb} from "./utils/db"
-import {writable} from "svelte/store"
+import db, { getAllTimelines, addTimelineToDb, removeTimelineFromDb, addEvent, getAllEventsOfTimeline} from "./utils/db"
+import {writable, get} from "svelte/store"
 import uniqueId from "./utils/uniqueId"
-
-const template = [
-    {
-        title: "Personal",
-        description: "Had coffee @starbucks",
-        lastTime: 1633427651355,
-        id: '_yfiazszh0'
-    },
-    {
-        title: "Work",
-        description: "Completed code revision",
-        lastTime: 1633427673787,
-        id: '_dojollzxv'
-    },
-    {
-        title: "Shopping",
-        description: "bought wine glasses from @glassmaker",
-        lastTime: 1633427713225,
-        id:'_f7yx6f7dv'
-    }
-]
 
 const timelinesStore = writable([])
 
@@ -68,6 +47,7 @@ async function deleteTimeline(id) {
         })
     })
     removeTimelineFromDb(tdata.id)
+    db.events.where('timelineId').equals(id).delete()
     unsub()
 }
 
@@ -91,3 +71,52 @@ function toggleTheme() {
     })
 }
 export {currentTheme, toggleTheme}
+
+
+/**
+ * Manage all the events in specefic timelines
+ * Event structure
+ * time - Date.now
+ * content - string
+ * eventId - uniqueId
+ * tags? - array containing string/char
+ */
+const exampleEvent = {
+    eventId: '_ndSpow9d',
+    time: Date.now(),
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+}
+const exampleEvent2 = {
+    eventId: '_4dqrj7iwv',
+    time: Date.now(),
+    content: exampleEvent.content
+}
+const eventsStore = writable({
+    '_mo9tkpd4o': [exampleEvent, exampleEvent, exampleEvent, exampleEvent, exampleEvent],
+    '_4dqrj7iwv': [exampleEvent2]
+})
+
+// takes the id of the timeline and list of events as 
+// parameters.
+async function addEventsList(id, eventsList) {
+    eventsStore.update(state => {
+        state[id] = eventsList
+        return state
+    })
+    // get the last element, which is the new event added
+    var obj = eventsList.slice(-1)[0]
+    await addEvent({...obj, timelineId: id})
+}
+function getEventsList(id) {
+    return get(eventsStore)[id] || []
+}
+
+async function loadEvents(timelineId) {
+    let eventsOfTimeline = await getAllEventsOfTimeline(timelineId)
+    eventsStore.update(state => {
+        state[timelineId] = eventsOfTimeline
+        console.log(state)
+        return state
+    })
+}
+export {eventsStore, addEventsList, getEventsList, loadEvents}

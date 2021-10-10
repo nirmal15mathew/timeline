@@ -1,11 +1,8 @@
 # Timeline App
 
 ### Todo
-- use indexedDb for storing timelines
 - setup firebase
-- get started with d3 and svg
 - setup auth
-- deletion of timelines
 - quick event creator
 - image uploading
 - markdown event addition
@@ -18,3 +15,6 @@
 - setup pwa
 - Deployed to vercel to test
 - responsive layout
+- use indexedDb for storing timelines (used dexie js for managaging db)
+- deletion of timelines
+- get started with d3 and svg (did not use d3, used svelte and svg)

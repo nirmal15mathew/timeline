@@ -25,7 +25,7 @@ import { onMount } from "svelte";
 	{/if}
 </svelte:head>
 <div class={$currentTheme}>
-	<main class="h-screen w-screen bg-gray-100 flex dark:bg-gray-700 transition-colors">
+	<main class="min-h-screen w-screen bg-gray-100 flex dark:bg-gray-700 transition-colors">
 		{#if sidebarShown}
 			<Sidebar />
 		{/if}
